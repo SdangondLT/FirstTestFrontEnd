@@ -12,16 +12,16 @@ async function getData() {
 async function get() {
   await getData();
   console.log("Esta es la api", docs);
-  pointOne_articleType("Research Article");
-  pointTwo_score(6.0);
-  pointThree_id("10.1371/journal.pgen.1006605");
-  pointFour_articleTypeUniques();
-  pointFive_journal();
-  pointSix_delete("publication_date");
-  pointSeven_Range();
-  pointEight_arrayAdded();
-  pointNine_arrayAdded();
-  pointNine_sortFunction(arrayPositionOdd, "title");
+  await pointOne_articleType("Research Article");
+  await pointTwo_score(6.0);
+  await pointThree_id("10.1371/journal.pgen.1006605");
+  await pointFour_articleTypeUniques();
+  await pointFive_journal();
+  await pointSix_delete("publication_date");
+  await pointSeven_Range();
+  await pointEight_arrayAdded();
+  await pointNine_arrayAdded();
+  await pointNine_sortFunction(arrayPositionOdd, "title");
 };
 
 // 1.
