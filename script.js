@@ -13,7 +13,7 @@ async function get() {
   await getData();
   console.log("Esta es la api", docs);
   pointOne_articleType("Research Article");
-  pointTwo_score(6.1);
+  pointTwo_score(6.0);
   pointThree_id("10.1371/journal.pgen.1006605");
   pointFour_articleTypeUniques();
   pointFive_journal();
@@ -21,7 +21,7 @@ async function get() {
   pointSeven_Range();
   pointEight_arrayAdded();
   pointNine_arrayAdded();
-  pointNine_sortFunction(arrayPositionOdd, "journal");
+  pointNine_sortFunction(arrayPositionOdd, "title");
 };
 
 // 1.
@@ -33,7 +33,7 @@ async function pointOne_articleType(value) {
 //2.
 async function pointTwo_score(grade) {
     let dataWithScoreGreaterToSix = docs.filter(item => item.score > grade);
-    console.log(`2. Estos son los valores de author_display with Score greater than ${grade - 0.1}:`, dataWithScoreGreaterToSix);
+    console.log(`2. Estos son los valores de author_display with Score greater than ${grade}:`, dataWithScoreGreaterToSix);
 };
 
 //3.
@@ -59,16 +59,14 @@ async function pointFive_journal() {
 };
 
 //6.
-async function pointSix_delete(toDelete) {
-
-    docs.forEach(property => {
-        delete property[toDelete];
+async function pointSix_delete(propertyToDelete) {
+    docs.forEach(item => {
+        delete item[propertyToDelete];
     });
-    
-    console.log(`6. Ha borrado la propiedad ${toDelete}:`, docs);
+    console.log(`6. Ha borrado la propiedad ${propertyToDelete}:`, docs);
 };
 
-//7. posicion 2 a la 6
+//7. 
 async function pointSeven_Range() {
     let indexOfIdStart = docs.findIndex(item => item.id === "10.1371/journal.pone.0047101");   
     let indexOfIdEnd = docs.findIndex(item => item.id === "10.1371/journal.pgen.1000047");    
@@ -114,19 +112,31 @@ async function pointEight_arrayAdded() {
 let arrayPositionOdd = [];
 
 async function pointNine_arrayAdded() {    
-    arrayPositionOdd = arrayConcatenated.filter((num, index) => index % 2 == 0);
-    console.log(`9. Aqui puede observar las posiciones impares del nuevo array:`, arrayPositionOdd);
+    //arrayPositionOdd = arrayConcatenated.filter((num, index) => index % 2 == 0);
+    arrayPositionOdd = docs.filter((num, index) => index % 2 == 0);
+    //console.log(`9. Aqui puede observar las posiciones impares del nuevo array:`, arrayPositionOdd);
+    console.log(`9. Aqui puede observar las posiciones impares de docs:`, arrayPositionOdd);
     
-    arrayPositionOdd.forEach(element => {
-        element.title = element.journal +", "+ element.title_display; 
-        element.authors = element.author_display.join(" - ")
+    arrayPositionOdd.forEach(item => {
+        item.title = item.journal +", "+ item.title_display; 
+        item.authors = item.author_display.join(" - ");
+        delete item["abstract"];
+        delete item["author_display"];
+        delete item["eissn"];
+        delete item["journal"];
+        delete item["title_display"];
+        delete item["publication_date"];
     });
-
     console.log(`9.1. Array de impares con nuevo formato:`, arrayPositionOdd);
 };
 
-async function pointNine_sortFunction(arrayToSort, property) {    
-    let arraySorted = arrayToSort.sort((a, b) => (a[property] > b[property] ? 1 : -1));
+async function pointNine_sortFunction(arrayToSort, property) {  
+    let valueTypeOf = arrayToSort.map(item => item[property])[0];
+    let arraySorted = [];
+    if (typeof valueTypeOf == "string")
+        arraySorted = arrayToSort.sort((a, b) => (a[property].toLowerCase() > b[property].toLowerCase() ? 1 : -1));
+    else
+        arraySorted = arrayToSort.sort((a, b) => (a[property] > b[property] ? 1 : -1));
     console.log(`9.2. Este es el array ordenado descendentemente por la propiedad ${property}:`, arraySorted);
 };
 
