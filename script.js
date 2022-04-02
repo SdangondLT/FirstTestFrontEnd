@@ -20,6 +20,8 @@ async function get() {
   pointSix_delete("publication_date");
   pointSeven_Range();
   pointEight_arrayAdded();
+  pointNine_arrayAdded();
+  pointNine_sortFunction(arrayPositionOdd, "journal");
 };
 
 // 1.
@@ -40,16 +42,6 @@ async function pointThree_id(idParameter) {
     dataWithId[0].article_type = 'Newspaper';
     console.log(`3. Este es el objeto correspondiente al id-> ${idParameter} con el article_type actualizado:`, dataWithId);
 };
-// async function pointThree_id(idParameter) {
-//     let dataWithId = docs.map((item) => 
-//     {
-//         let articleType = 'Newspaper';
-//         if (item.id == idParameter) {
-//             item.article_type = articleType;
-//         }
-//         console.log(`3. Este es el objeto correspondiente al id-> ${idParameter} con el article_type actualizado:`, dataWithId);
-//     });
-// };
 
 //4.
 async function pointFour_articleTypeUniques() {
@@ -111,21 +103,31 @@ let arrayToAdd = [
 ];
 
 //8.
+let arrayConcatenated = [];
+
 async function pointEight_arrayAdded() {    
-    let newArray = docs.concat(arrayToAdd);
-    console.log(`8. Aqui puede observar los dos arrays concatenados:`, newArray);
+    arrayConcatenated = docs.concat(arrayToAdd);
+    console.log(`8. Aqui puede observar los dos arrays concatenados:`, arrayConcatenated);
 };
 
 //9
+let arrayPositionOdd = [];
+
 async function pointNine_arrayAdded() {    
-    let newArray = docs.concat(arrayToAdd);
-    console.log(`8. Aqui puede observar los dos arrays concatenados:`, newArray);
+    arrayPositionOdd = arrayConcatenated.filter((num, index) => index % 2 == 0);
+    console.log(`9. Aqui puede observar las posiciones impares del nuevo array:`, arrayPositionOdd);
+    
+    arrayPositionOdd.forEach(element => {
+        element.title = element.journal +", "+ element.title_display; 
+        element.authors = element.author_display.join(" - ")
+    });
+
+    console.log(`9.1. Array de impares con nuevo formato:`, arrayPositionOdd);
+};
+
+async function pointNine_sortFunction(arrayToSort, property) {    
+    let arraySorted = arrayToSort.sort((a, b) => (a[property] > b[property] ? 1 : -1));
+    console.log(`9.2. Este es el array ordenado descendentemente por la propiedad ${property}:`, arraySorted);
 };
 
 get();
-
-// Puntos a evaluar:
-// ● Async
-// ● Arrays
-// ● Funciones
-// ● Variables globales y locales
