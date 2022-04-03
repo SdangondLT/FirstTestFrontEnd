@@ -112,20 +112,12 @@ async function pointEight_arrayAdded() {
 let arrayPositionOdd = [];
 
 async function pointNine_arrayAdded() {    
-    //arrayPositionOdd = arrayConcatenated.filter((num, index) => index % 2 == 0);
-    arrayPositionOdd = docs.filter((num, index) => index % 2 == 0);
-    //console.log(`9. Aqui puede observar las posiciones impares del nuevo array:`, arrayPositionOdd);
+    arrayPositionOdd = docs.filter((num, index) => index % 2 != 0);
     console.log(`9. Aqui puede observar las posiciones impares de docs:`, arrayPositionOdd);
     
     arrayPositionOdd.forEach(item => {
         item.title = item.journal +", "+ item.title_display; 
         item.authors = item.author_display.join(" - ");
-        delete item["abstract"];
-        delete item["author_display"];
-        delete item["eissn"];
-        delete item["journal"];
-        delete item["title_display"];
-        delete item["publication_date"];
     });
     console.log(`9.1. Array de impares con nuevo formato:`, arrayPositionOdd);
 };
