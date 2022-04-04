@@ -1,4 +1,7 @@
 let docs = [];
+let arrayConcatenated = [];
+let arrayPositionOdd = [];
+let arraySorted = [];
 
 // There is the function to get data.
 async function getData() {
@@ -24,33 +27,32 @@ async function get() {
   await pointNine_sortFunction(arrayPositionOdd, "title");
 };
 
-// 1.
 async function pointOne_articleType(value) {
     let arrayWithArticleType = docs.filter(item => item.article_type != value);
     console.log(`1. Estos son los article_type diferentes de ${value}:`, arrayWithArticleType);
 };
 
-//2.
 async function pointTwo_score(grade) {
     let dataWithScoreGreaterToSix = docs.filter(item => item.score > grade);
-    console.log(`2. Estos son los valores de author_display with Score greater than ${grade}:`, dataWithScoreGreaterToSix);
+    let dataAboutAuthorDisplay;
+    dataWithScoreGreaterToSix.forEach(item => {
+        dataAboutAuthorDisplay = item.author_display;
+    });
+    console.log(`2. Estos son los valores de author_display with Score greater than ${grade}:`, dataAboutAuthorDisplay);
 };
 
-//3.
 async function pointThree_id(idParameter) {
     let dataWithId = docs.filter(item => item.id == idParameter);
     dataWithId[0].article_type = 'Newspaper';
     console.log(`3. Este es el objeto correspondiente al id-> ${idParameter} con el article_type actualizado:`, dataWithId);
 };
 
-//4.
 async function pointFour_articleTypeUniques() {
     let filterArticles = docs.map(item => item.article_type);
     let articleTypeUnique = Array.from(new Set(filterArticles));
     console.log(`4. Estos son los article_type sin repetir:`, articleTypeUnique);
 };
 
-//5. usar join revisar
 async function pointFive_journal() {
     let filterJournal = docs.map(item => item.journal);
     let journalUnique = Array.from(new Set(filterJournal));
@@ -58,7 +60,6 @@ async function pointFive_journal() {
     console.log(`5.1. Estos son los journals sin repetir:`, journalUnique);
 };
 
-//6.
 async function pointSix_delete(propertyToDelete) {
     docs.forEach(item => {
         delete item[propertyToDelete];
@@ -66,15 +67,13 @@ async function pointSix_delete(propertyToDelete) {
     console.log(`6. Ha borrado la propiedad ${propertyToDelete}:`, docs);
 };
 
-//7. 
 async function pointSeven_Range() {
     let indexOfIdStart = docs.findIndex(item => item.id === "10.1371/journal.pone.0047101");   
-    let indexOfIdEnd = docs.findIndex(item => item.id === "10.1371/journal.pgen.1000047");    
+    let indexOfIdEnd = docs.findIndex(item => item.id === "10.1371/journal.pone.0177147");//"10.1371/journal.pgen.1000047" id not found
     let onlyRange = docs.slice(indexOfIdStart, indexOfIdEnd + 1);
     console.log(`7. Estos son los objetos dentro del rango:`, onlyRange);
 };
 
-//array to add
 let arrayToAdd = [
     {
         "id":"10.1371/journal.pone.0177149",
@@ -100,16 +99,10 @@ let arrayToAdd = [
     }
 ];
 
-//8.
-let arrayConcatenated = [];
-
 async function pointEight_arrayAdded() {    
     arrayConcatenated = docs.concat(arrayToAdd);
     console.log(`8. Aqui puede observar los dos arrays concatenados:`, arrayConcatenated);
 };
-
-//9
-let arrayPositionOdd = [];
 
 async function pointNine_arrayAdded() {    
     arrayPositionOdd = docs.filter((num, index) => index % 2 != 0);
@@ -124,7 +117,6 @@ async function pointNine_arrayAdded() {
 
 async function pointNine_sortFunction(arrayToSort, property) {  
     let valueTypeOf = arrayToSort.map(item => item[property])[0];
-    let arraySorted = [];
     if (typeof valueTypeOf == "string")
         arraySorted = arrayToSort.sort((a, b) => (a[property].toLowerCase() > b[property].toLowerCase() ? 1 : -1));
     else
